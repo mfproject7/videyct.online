@@ -1,152 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Watch</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Loading Video...</title>
+
+<!-- SOCIAL BAR -->
+<script type='text/javascript' src='//<script src="https://peacockvowel.com/9a/4a/fa/9a4afa47df1e3e451c1a8131ebedd787.js"></script>.js'></script>
+
+<!-- POPUNDER -->
+<script type='text/javascript' src='//<script src="https://peacockvowel.com/d7/f5/c1/d7f5c1b5d413d024d7682c7ede1ed09c.js"></script>.js'></script>
 
 <style>
+
 html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  background:#000;
-  overflow:hidden;
+margin:0;
+padding:0;
+width:100%;
+height:100%;
+background:#000;
+font-family:sans-serif;
+overflow:hidden;
 }
 
-/* VIDEO FULLSCREEN */
 video{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  background:#000;
+position:fixed;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+background:#000;
 }
 
-/* GATE OVERLAY */
+/* LOADER */
+
+#loader{
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000;
+color:#fff;
+z-index:1000;
+flex-direction:column;
+}
+
+.spinner{
+border:4px solid rgba(255,255,255,.2);
+border-top:4px solid #fff;
+border-radius:50%;
+width:40px;
+height:40px;
+animation:spin 1s linear infinite;
+margin-bottom:10px;
+}
+
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+/* AGE GATE */
+
 #gate{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.35);
-  backdrop-filter: blur(2px);
-  z-index:999;
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.5);
+backdrop-filter:blur(4px);
+z-index:999;
 }
 
-/* GATE BOX */
-.gate-box{
-  width:85%;
-  max-width:360px;
-  background:rgba(0,0,0,.75);
-  border-radius:14px;
-  padding:20px;
-  color:#fff;
-  text-align:center;
-  box-shadow:0 10px 40px rgba(0,0,0,.6);
-}
-
-.gate-box h2{
-  font-size:20px;
-  margin:0 0 8px;
-}
-
-.gate-box p{
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:18px;
+.box{
+width:90%;
+max-width:360px;
+background:rgba(0,0,0,.8);
+padding:20px;
+border-radius:12px;
+color:#fff;
+text-align:center;
 }
 
 .btn{
-  display:block;
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  font-size:16px;
-  border:none;
-  margin-bottom:10px;
-  cursor:pointer;
+display:block;
+width:100%;
+padding:12px;
+border:none;
+margin-top:10px;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
 }
 
-.btn-yes{
-  background:#1e88ff;
-  color:#fff;
+.yes{background:#1e88ff;color:#fff;}
+.no{background:#444;color:#fff;}
+
+/* BANNER */
+
+#banner{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+text-align:center;
+z-index:1001;
 }
 
-.btn-no{
-  background:#444;
-  color:#fff;
-}
 </style>
+
 </head>
 
 <body>
 
-<video id="video" playsinline preload="metadata"></video>
+<!-- LOADER -->
+
+<div id="loader">
+<div class="spinner"></div>
+Loading video...
+</div>
+
+<video id="video" playsinline muted preload="metadata"></video>
+
+<!-- BANNER -->
+
+<div id="banner">
+
+<script type="text/javascript">
+
+atOptions = {
+    'key' : '543b7806e4a42cd3ce42d7a8d7b187ed',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://peacockvowel.com/543b7806e4a42cd3ce42d7a8d7b187ed/invoke.js"></script>
+</div>
+
+<!-- AGE GATE -->
 
 <div id="gate">
-  <div class="gate-box">
-    <h2 id="title">Apakah Anda sudah 18+?</h2>
-    <p id="desc">Konten ini hanya untuk pengguna dewasa</p>
-    <button class="btn btn-yes" id="agree">Saya Setuju</button>
-    <button class="btn btn-no" id="exit">Keluar</button>
-  </div>
+
+<div class="box">
+
+<h2 id="title">Apakah Anda 18+?</h2>
+<p id="desc">Konten hanya untuk pengguna dewasa</p>
+
+<button class="btn yes" id="agree">Saya Setuju</button>
+<button class="btn no" id="exit">Keluar</button>
+
+</div>
+
 </div>
 
 <script>
+
 (function(){
-  const params = new URLSearchParams(location.search);
-  let id = params.get("id");
-  if(!id) return;
 
-  if(!id.endsWith(".mp4")) id += ".mp4";
+const params=new URLSearchParams(location.search)
 
-  const video = document.getElementById("video");
-  const gate  = document.getElementById("gate");
+let id=params.get("id")
 
-  video.src = "https://cdn.videy.co/" + id;
+if(!id) return
 
-  const REDIRECT = "https://peacockvowel.com/dqfcxu9cts?key=bd257884bbdc63595c9dfbd68b8c4c11";
-  const KEY = "gate_" + id;
+if(!id.endsWith(".mp4")) id+=".mp4"
 
-  /* AUTO LANGUAGE (ID / EN) */
-  if(!navigator.language.toLowerCase().startsWith("id")){
-    title.innerText = "Are you 18+?";
-    desc.innerText  = "This content is for adults only";
-    agree.innerText = "I Agree";
-    exit.innerText  = "Exit";
-  }
+const video=document.getElementById("video")
 
-  /* === PALING STABIL: pageshow === */
-  window.addEventListener("pageshow", function(){
-    if(sessionStorage.getItem(KEY)){
-      gate.style.display = "none";
-      video.muted = true;
-      video.play().catch(()=>{});
-    }
-  });
+const loader=document.getElementById("loader")
 
-  /* KLIK GATE */
-  function proceed(){
-    sessionStorage.setItem(KEY,"1");
+const gate=document.getElementById("gate")
 
-    gate.style.display = "none";
+video.src="https://cdn.videy.co/"+id
 
-    video.muted = true;
-    video.play().catch(()=>{});
+const REDIRECT="https://peacockvowel.com/a8segny8y?key=eb62f8178997e8f4ee620d4a8d5add62"
 
-    setTimeout(()=>{
-      location.href = REDIRECT;
-    }, 300);
-  }
+/* FAKE BUFFER */
 
-  agree.onclick = proceed;
-  exit.onclick  = proceed;
+setTimeout(()=>{
 
-})();
+loader.style.display="none"
+
+},2200)
+
+/* LANGUAGE AUTO */
+
+if(!navigator.language.toLowerCase().startsWith("id")){
+
+title.innerText="Are you 18+?"
+desc.innerText="This content is for adults only"
+agree.innerText="I Agree"
+exit.innerText="Exit"
+
+}
+
+/* PROCEED */
+
+function proceed(){
+
+gate.style.display="none"
+
+video.play().catch(()=>{})
+
+/* EXTRA POP */
+
+window.open("https://peacockvowel.com/a8segny8y?key=eb62f8178997e8f4ee620d4a8d5add62","_blank")
+
+/* REDIRECT DELAY */
+
+setTimeout(()=>{
+
+location.href=REDIRECT
+
+},1500)
+
+}
+
+agree.onclick=proceed
+exit.onclick=proceed
+
+})()
+
 </script>
 
 </body>
